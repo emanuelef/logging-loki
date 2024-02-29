@@ -5,18 +5,26 @@ networks:
 
 services:
   reservations-service:
-    image: reservations-service:v0
-    labels:
-      logging: "promtail"
+    build:
+      context: ./reservations-service
+    container_name: reservations-service
     ports:
       - "8081:8081"
-
-  notifications-service:
-    image: notifications-service:v0
+    expose:
+      - 8081
     labels:
       logging: "promtail"
+
+  notifications-service:
+    build:
+      context: ./notifications-service
     ports:
       - "8082:8082"
+    expose:
+      - 8082      
+    container_name: notifications-service
+    labels:
+      logging: "promtail"
 
   promtail:
     image: grafana/promtail:2.9.0
